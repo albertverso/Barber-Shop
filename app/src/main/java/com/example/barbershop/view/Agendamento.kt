@@ -8,6 +8,8 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import com.example.barbershop.databinding.ActivityAgendamentoBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import java.util.Calendar
 
 class Agendamento : AppCompatActivity() {
@@ -78,10 +80,10 @@ class Agendamento : AppCompatActivity() {
                     mensagem(it, "Escolha uma data!", "#FF0000")
                 }
                 barbeiro1.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    mensagem(it, "Agendamento realizado com sucesso!", "#FF03DAC5")
+                    salvarAgendamento(it, nome,"barbeiro1",data,hora )
                 }
                 barbeiro2.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    mensagem(it, "Agendamento realizado com sucesso!", "##FF03DAC5")
+                    salvarAgendamento(it, nome,"barbeiro2",data,hora )
                 }
                 else -> {
                     mensagem(it, "Escolha um barbeiro!", "#FF0000")
@@ -95,5 +97,23 @@ class Agendamento : AppCompatActivity() {
         snackbar.setBackgroundTint(Color.parseColor(cor))
         snackbar.setTextColor(Color.parseColor("#FFFFFF"))
         snackbar.show()
+    }
+
+    private fun salvarAgendamento(view: View, cliente: String, barbeiro: String, data: String, hora: String) {
+
+        val db = FirebaseFirestore.getInstance()
+
+        val dadosUsuarios = hashMapOf(
+            "cliente" to cliente,
+            "barbeiro" to barbeiro,
+            "data" to data,
+            "hora" to hora,
+        )
+
+        db.collection("agendamento").document(cliente).set(dadosUsuarios).addOnCompleteListener {
+            mensagem(view, "Agendamento realizado com sucesso!", "FF03DAC5")
+        }.addOnFailureListener {
+            mensagem(view,"Erro no servidor!", "#FF0000")
+        }
     }
 }
