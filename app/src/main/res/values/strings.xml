@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Barber Shop</string>
+    <string name="register">Crie sua conta</string>
+    <string name="barber_shop">Barber Shop</string>
+    <string name="login">LOGIN</string>
 </resources>

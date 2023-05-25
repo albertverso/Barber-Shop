@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi
 import com.example.barbershop.databinding.ActivityAgendamentoBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import java.util.Calendar
 
 class Agendamento : AppCompatActivity() {
@@ -27,6 +26,7 @@ class Agendamento : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
         val nome = intent.extras?.getString("nome").toString()
 
         val datePicker = binding.datePicker
@@ -94,8 +94,7 @@ class Agendamento : AppCompatActivity() {
 
     private fun mensagem(view: View, mensagem: String, cor: String){
         val snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT)
-        snackbar.setBackgroundTint(Color.parseColor(cor))
-        snackbar.setTextColor(Color.parseColor("#FFFFFF"))
+        snackbar.setBackgroundTint(Color.RED)
         snackbar.show()
     }
 

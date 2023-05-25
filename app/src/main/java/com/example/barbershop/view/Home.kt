@@ -21,6 +21,7 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
         val nome = intent.extras?.getString("nome")
 
         binding.txtNomeUsuario.text = "Bem-vindo, $nome"
