@@ -1,10 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.BarberShop" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="android:statusBarColor"> @color/midnightblue</item>
+    <style name="Theme.BarberShop" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor"> @color/alizarin</item>
     </style>
 
-    <style name="Theme.SplashScreenTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.SplashScreenTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor"> @color/midnightblue</item>
+        <item name="android:navigationBarColor"> @color/midnightblue</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.SplashScreenTheme" >

@@ -1,42 +1,55 @@
 package com.example.barbershop.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.barbershop.R
 import com.example.barbershop.adapter.ServicosAdapter
-import com.example.barbershop.databinding.ActivityHomeBinding
-import com.example.barbershop.model.Servicos
+import com.example.barbershop.databinding.FragmentHomeBinding
+import com.example.barbershop.models.Servicos
 
-class Home : AppCompatActivity() {
-
-    private lateinit var binding: ActivityHomeBinding
+class Home : Fragment(R.layout.fragment_home) {
     private lateinit var servicosAdapter: ServicosAdapter
     private val listaServicos: MutableList<Servicos> = mutableListOf()
+    private val args: HomeArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-        supportActionBar?.hide()
+    @SuppressLint("SetTextI18n")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        val nome = intent.extras?.getString("nome")
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.txtNomeUsuario.text = "Bem-vindo, $nome"
+        val view = binding.root
+
+        view.findViewById<TextView>(R.id.txtNomeUsuario).text = "Bem-vindo, ${args.user.Nome}"
+
         val recyclerViewServicos = binding.recyclerViewServicos
-        recyclerViewServicos.layoutManager = GridLayoutManager(this, 2)
-        servicosAdapter = ServicosAdapter(this, listaServicos)
+        recyclerViewServicos.layoutManager = GridLayoutManager(activity, 2)
+        servicosAdapter = activity?.let { ServicosAdapter(it, listaServicos) }!!
         recyclerViewServicos.setHasFixedSize(true)
         recyclerViewServicos.adapter = servicosAdapter
         getServicos()
 
         binding.btAgendar.setOnClickListener {
-            val intent = Intent(this, Agendamento::class.java)
-            intent.putExtra("nome", nome)
+            val intent = Intent(activity, Agendamento::class.java)
+            intent.putExtra("nome", args.user.Nome)
             startActivity(intent)
         }
+
+        return view
     }
 
     private fun getServicos(){

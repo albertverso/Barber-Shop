@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="@string/barber_shop"
             android:background="@color/midnightblue"
-            android:textSize="36sp"
+            android:textSize="30sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"
@@ -29,7 +29,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:src="@drawable/logobarber1" />
 
         <EditText
@@ -37,6 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nome"
+            android:textColorHint="@color/midnightblue"
+            android:textColor="@color/midnightblue"
             android:background="@color/white"
             android:maxLines="1"
             android:inputType="text"
@@ -45,6 +47,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:drawableRight="@drawable/icon_person"
             />
 
         <EditText
@@ -52,6 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Senha"
+            android:textColorHint="@color/midnightblue"
+            android:textColor="@color/midnightblue"
             android:background="@color/white"
             android:maxLines="1"
             android:inputType="numberPassword"
@@ -60,8 +65,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:drawableRight="@drawable/icon_eye"
             />
-
         <Button
             android:id="@+id/btLogin"
             android:layout_width="match_parent"
@@ -78,12 +83,21 @@
             android:layout_marginBottom="10dp"
             />
 
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progressBar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            />-->
+
         <Button
             android:id="@+id/btRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register"
+            android:text="@string/crie_sua_conta"
             android:textColor="@color/white"
+            android:textAllCaps="false"
             android:backgroundTint="@color/alizarin"
             android:padding="5dp"
             app:cornerRadius="15dp"
