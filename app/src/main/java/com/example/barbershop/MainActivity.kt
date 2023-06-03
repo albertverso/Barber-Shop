@@ -1,59 +1,31 @@
 package com.example.barbershop
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.example.barbershop.databinding.ActivityHomeBinding
-import com.example.barbershop.databinding.ActivityMainBinding
-import com.example.barbershop.view.Home
-import com.google.android.material.snackbar.Snackbar
+import androidx.activity.ComponentActivity
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+
+@HiltAndroidApp
+class ContaPagaApplication : Application()
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        supportActionBar?.hide()
-
-        binding.btLogin.setOnClickListener {
-            val nome = binding.editNome.text.toString()
-            val senha = binding.editSenha.text.toString()
-
-            when{
-                nome.isEmpty() -> {
-                    mensagem(it, "Coloque o seu nome!")
-                }
-                senha.isEmpty() -> {
-                    mensagem(it, "Preencha a senha!")
-                }
-                senha.length <= 5 -> {
-                    mensagem(it, "A senha precisa ter pelo menos 6 caracteres!")
-                }
-                else -> {
-                    navegarProHome(nome)
-                }
-            }
-        }
-
+        setContentView(R.layout.activity_main)
     }
-
-    private fun mensagem(view : View, mensagem : String) {
-        val snackbar = Snackbar.make(view,mensagem,Snackbar.LENGTH_SHORT)
-        snackbar.setBackgroundTint(Color.parseColor("#FF0000"))
-        snackbar.setTextColor(Color.parseColor("#FFFFFF"))
-        snackbar.show()
-    }
-
-    private fun navegarProHome(nome: String) {
-        val intent = Intent(this, Home::class.java)
-        intent.putExtra("nome",nome)
+}
+@AndroidEntryPoint
+@SuppressLint("CustomSplashScreen")
+class SplashScreenActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
-
 }
