@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.barbershop.R
@@ -15,13 +16,15 @@ import com.google.android.material.snackbar.Snackbar
 
 class Login : Fragment(R.layout.fragment_login) {
 
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val nome = view.findViewById<EditText>(R.id.editNome)
+        val senha = view.findViewById<EditText>(R.id.editSenha)
+
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
-            val nome = view.findViewById<EditText>(R.id.editNome)
-            val senha = view.findViewById<EditText>(R.id.editSenha)
+
 
             when{
                 nome.length() < 1 -> {
@@ -36,16 +39,15 @@ class Login : Fragment(R.layout.fragment_login) {
                 else -> {
                     val action = LoginDirections.actionLoginToHome3(
                        user = User (
-                                    "$nome"
+                           Nome = nome.text.toString()
                                )
                     )
-
                     findNavController().navigate(action)
                 }
             }
         }
 
-        view.findViewById<Button>(R.id.btRegister).setOnClickListener {
+        view.findViewById<TextView>(R.id.btRegister).setOnClickListener {
             findNavController().navigate(R.id.action_login_to_register)
             setStatusBarColor(color = Color.parseColor("#E74C3C"))
         }

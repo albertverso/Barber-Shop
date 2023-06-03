@@ -2,35 +2,45 @@ package com.example.barbershop.view
 
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
-import com.example.barbershop.databinding.ActivityAgendamentoBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import com.example.barbershop.R
+import com.example.barbershop.databinding.FragmentAgendamentoBinding
+import com.example.barbershop.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
-class Agendamento : AppCompatActivity() {
-
-    private lateinit var binding: ActivityAgendamentoBinding
+class Agendamento : Fragment(R.layout.fragment_agendamento) {
+    private var _binding: FragmentAgendamentoBinding? = null
+    private val binding get() = _binding!!
     private val calendar: Calendar = Calendar.getInstance()
     private var data: String = ""
     private var hora: String = ""
-
+    private val args: AgendamentoArgs by navArgs()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAgendamentoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentAgendamentoBinding.inflate(inflater, container, false)
 
-        supportActionBar?.hide()
+        val view = binding.root
+        val nome = args.user.Nome
 
-        val nome = intent.extras?.getString("nome").toString()
-
-        val datePicker = binding.datePicker
-        datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+        val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
+        datePicker?.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -51,7 +61,7 @@ class Agendamento : AppCompatActivity() {
             data = "$dia / $mes / $year"
         }
 
-        binding.timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+        view.findViewById<TimePicker>(R.id.timePicker)?.setOnTimeChangedListener { _, hourOfDay, minute ->
            val minuto: String
 
            if(minute < 10){
@@ -63,11 +73,11 @@ class Agendamento : AppCompatActivity() {
             hora = "$hourOfDay: $minuto"
         }
 
-        binding.timePicker.setIs24HourView(true )
+        view.findViewById<TimePicker>(R.id.timePicker)?.setIs24HourView(true )
 
-        binding.btAgendar.setOnClickListener {
-            val barbeiro1 = binding.barbeiro1
-            val barbeiro2 = binding.barbeiro2
+        view.findViewById<Button>(R.id.btMarcarAgendamento)?.setOnClickListener {
+            val barbeiro1 = view.findViewById<CheckBox>(R.id.barbeiro1)
+            val barbeiro2 = view.findViewById<CheckBox>(R.id.barbeiro2)
 
             when{
                 hora.isEmpty() -> {
@@ -80,16 +90,17 @@ class Agendamento : AppCompatActivity() {
                     mensagem(it, "Escolha uma data!", "#FF0000")
                 }
                 barbeiro1.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome,"barbeiro1",data,hora )
+                    salvarAgendamento(it, nome.toString(),"barbeiro1",data,hora )
                 }
                 barbeiro2.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome,"barbeiro2",data,hora )
+                    salvarAgendamento(it, nome.toString(),"barbeiro2",data,hora )
                 }
                 else -> {
                     mensagem(it, "Escolha um barbeiro!", "#FF0000")
                 }
             }
         }
+        return view
     }
 
     private fun mensagem(view: View, mensagem: String, cor: String){

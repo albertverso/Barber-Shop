@@ -35,5 +35,20 @@
         <argument
             android:name="user"
             app:argType="com.example.barbershop.models.User" />
+        <action
+            android:id="@+id/action_home3_to_agendamento"
+            app:destination="@id/agendamento" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendamento"
+        android:name="com.example.barbershop.view.Agendamento"
+        android:label="Agendamento"
+        tools:layout="@layout/fragment_agendamento">
+        <argument
+            android:name="user"
+            app:argType="com.example.barbershop.models.User" />
+        <action
+            android:id="@+id/action_agendamento_to_home3"
+            app:destination="@id/home3" />
     </fragment>
 </navigation>
