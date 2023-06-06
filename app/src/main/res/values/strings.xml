@@ -8,5 +8,7 @@
     <string name="senha">Senha</string>
     <string name="nome">Nome</string>
     <string name="email">Email</string>
-    <string name="underline">_________________</string>
+    <string name="hora">Hora</string>
+    <string name="data">Data</string>
+    <string name="Agendamento">Agendamento</string>
 </resources>
