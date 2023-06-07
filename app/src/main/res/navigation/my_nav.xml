@@ -15,7 +15,10 @@
          />
         <action
             android:id="@+id/action_login_to_home3"
-            app:destination="@id/home3" />
+            app:destination="@id/home3"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/home3"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/register"

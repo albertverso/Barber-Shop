@@ -2,10 +2,12 @@ package com.example.barbershop.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -18,19 +20,13 @@ import com.example.barbershop.models.User
 class Home : Fragment(R.layout.fragment_home) {
     private val args: HomeArgs by navArgs()
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
-
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
 
-        val view = binding.root
 
         val NameUser = args.user.Nome
 
@@ -44,7 +40,5 @@ class Home : Fragment(R.layout.fragment_home) {
             )
             findNavController().navigate(action)
         }
-
-        return view
     }
 }

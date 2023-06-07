@@ -20,22 +20,19 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
 class Agendamento : Fragment(R.layout.fragment_agendamento) {
-    private var _binding: FragmentAgendamentoBinding? = null
-    private val binding get() = _binding!!
     private val calendar: Calendar = Calendar.getInstance()
     private var data: String = ""
     private var hora: String = ""
     private val args: AgendamentoArgs by navArgs()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentAgendamentoBinding.inflate(inflater, container, false)
+    @SuppressLint("ResourceType", "SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val view = binding.root
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity?.window?.statusBarColor = Color.parseColor("#E74C3C")
+
         val nome = args.user.Nome
 
         val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
@@ -61,13 +58,13 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
         }
 
         view.findViewById<TimePicker>(R.id.timePicker)?.setOnTimeChangedListener { _, hourOfDay, minute ->
-           val minuto: String
+            val minuto: String
 
-           if(minute < 10){
-               minuto = "0$minute"
-           }else{
-               minuto = minute.toString()
-           }
+            if(minute < 10){
+                minuto = "0$minute"
+            }else{
+                minuto = minute.toString()
+            }
 
             hora = "$hourOfDay: $minuto"
         }
@@ -80,13 +77,13 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
 
             when{
                 hora.isEmpty() -> {
-                    mensagem(it, "Preencha o horário", "#FF0000")
+                    mensagem(it, "Preencha o horário")
                 }
                 hora < "8:00" && hora > "19:00" -> {
-                    mensagem(it, "Barbearia esta fechada - hórario de atendimento das 08:00 ás 19:00 horas!", "#FF0000")
+                    mensagem(it, "Barbearia esta fechada - hórario de atendimento das 08:00 ás 19:00 horas!")
                 }
                 data.isEmpty() -> {
-                    mensagem(it, "Escolha uma data!", "#FF0000")
+                    mensagem(it, "Escolha uma data!")
                 }
                 barbeiro1.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
                     salvarAgendamento(it, nome.toString(),"barbeiro1",data,hora )
@@ -95,31 +92,18 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
                     salvarAgendamento(it, nome.toString(),"barbeiro2",data,hora )
                 }
                 else -> {
-                    mensagem(it, "Escolha um barbeiro!", "#FF0000")
+                    mensagem(it, "Escolha um barbeiro!")
                 }
             }
         }
-        return view
-    }
-
-    @SuppressLint("ResourceType", "SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<ImageView>(R.id.arrow_back).setOnClickListener {
             requireActivity().onBackPressed()
-            setStatusBarColor(color = Color.parseColor("#2C3E50"))
         }
 
         view.findViewById<TextView>(R.id.txtActionBar).text = "Agendamento"
     }
-
-    private fun setStatusBarColor(color: Int) {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        activity?.window?.statusBarColor = color
-    }
-
-    private fun mensagem(view: View, mensagem: String, cor: String){
+    private fun mensagem(view: View, mensagem: String){
         val snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT)
         snackbar.setBackgroundTint(Color.RED)
         snackbar.show()
@@ -137,9 +121,9 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
         )
 
         db.collection("agendamento").document(cliente).set(dadosUsuarios).addOnCompleteListener {
-            mensagem(view, "Agendamento realizado com sucesso!", "FF03DAC5")
+            mensagem(view, "Agendamento realizado com sucesso!")
         }.addOnFailureListener {
-            mensagem(view,"Erro no servidor!", "#FF0000")
+            mensagem(view,"Erro no servidor!")
         }
     }
 }

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/midnightblue"
-        android:gravity="center"
         android:orientation="vertical"
         tools:context=".view.Login">
 
@@ -21,6 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/midnightblue"
             android:gravity="center"
+            android:layout_marginTop="30dp"
             android:text="@string/barber_shop"
             android:textColor="@color/white"
             android:textSize="30sp"
@@ -28,7 +28,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:src="@drawable/logobarber1" />
 
         <EditText
@@ -49,6 +49,24 @@
             android:textColorHint="@color/midnightblue" />
 
         <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:textColorHint="@color/midnightblue"
+            android:textColor="@color/midnightblue"
+            android:background="@color/white"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:gravity="center"
+            android:padding="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:drawableEnd="@drawable/icon_email"
+            tools:ignore="TextFields" />
+
+        <EditText
             android:id="@+id/editSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,6 +82,19 @@
             android:padding="15dp"
             android:textColor="@color/midnightblue"
             android:textColorHint="@color/midnightblue" />
+
+        <TextView
+            android:id="@+id/txtRecuperarSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/alizarin"
+            android:gravity="center"
+            android:text="@string/recuperar_senha"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
 
         <Button
             android:id="@+id/btLogin"
@@ -99,8 +130,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold"
-            >
-
-        </TextView>
+            />
     </LinearLayout>
 </ScrollView>

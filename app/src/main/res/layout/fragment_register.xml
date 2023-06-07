@@ -31,7 +31,7 @@
             />
 
         <EditText
-            android:id="@+id/editNome"
+            android:id="@+id/editNomeRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nome"
@@ -49,7 +49,7 @@
             />
 
         <EditText
-            android:id="@+id/editEmail"
+            android:id="@+id/editEmailRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -57,7 +57,7 @@
             android:textColor="@color/midnightblue"
             android:background="@color/white"
             android:maxLines="1"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:gravity="center"
             android:padding="15dp"
             android:layout_marginTop="20dp"
@@ -67,7 +67,7 @@
             tools:ignore="TextFields" />
 
         <EditText
-            android:id="@+id/editSenha"
+            android:id="@+id/editSenhaRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/senha"

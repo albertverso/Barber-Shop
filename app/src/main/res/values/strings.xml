@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Barber Shop</string>
-    <string name="crie_sua_conta"> <u>Crie sua conta aqui!</u></string>
+    <string name="crie_sua_conta"> <u>Não tem uma conta? Cadastre-se agora mesmo!</u></string>
+    <string name="recuperar_senha"> <u>Esqueceu a senha? recupere aqui!</u></string>
     <string name="barber_shop">Barber Shop</string>
-    <string name="login">LOGIN</string>
-    <string name="registre_se">Registre-se</string>
+    <string name="login">Entrar</string>
+    <string name="registre_se">Cadastre-se</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="senha">Senha</string>
     <string name="nome">Nome</string>

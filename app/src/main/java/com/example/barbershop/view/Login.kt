@@ -8,33 +8,40 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.example.barbershop.R
 import com.example.barbershop.models.User
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.scopes.FragmentScoped
 
 class Login : Fragment(R.layout.fragment_login) {
+    private val auth = FirebaseAuth.getInstance()
 
     @SuppressLint("ResourceType", "CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
+
         val nome = view.findViewById<EditText>(R.id.editNome)
         val senha = view.findViewById<EditText>(R.id.editSenha)
+        val email = view.findViewById<EditText>(R.id.editEmail)
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
-
-
             when{
                 nome.length() < 1 -> {
                     mensagem(it, "Coloque o seu nome!")
                 }
+                email.length() < 1 -> {
+                    mensagem(it, "Preencha seu email!")
+                }
                 senha.length() < 1 -> {
                     mensagem(it, "Preencha a senha!")
-                }
-                senha.length() <= 5 -> {
-                    mensagem(it, "A senha precisa ter pelo menos 6 caracteres!")
                 }
                 else -> {
                     val action = LoginDirections.actionLoginToHome3(
@@ -42,7 +49,13 @@ class Login : Fragment(R.layout.fragment_login) {
                            Nome = nome.text.toString()
                                )
                     )
-                    findNavController().navigate(action)
+                    auth.signInWithEmailAndPassword(email.text.toString(), senha.text.toString()).addOnCompleteListener { autenticacao ->
+                        if(autenticacao.isSuccessful){
+                            findNavController().navigate(action)
+                        }
+                    }.addOnFailureListener {
+                        mensagem(view, "Erro ao fazer o login!")
+                    }
                 }
             }
         }
