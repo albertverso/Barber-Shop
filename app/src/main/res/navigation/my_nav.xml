@@ -16,9 +16,9 @@
         <action
             android:id="@+id/action_login_to_home3"
             app:destination="@id/home3"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/home3"
-            app:popUpToInclusive="false" />
+            app:launchSingleTop="false"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/register"
@@ -35,9 +35,6 @@
         android:name="com.example.barbershop.view.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
-        <argument
-            android:name="user"
-            app:argType="com.example.barbershop.models.User" />
         <action
             android:id="@+id/action_home3_to_agendamento"
             app:destination="@id/agendamento" />
@@ -47,11 +44,9 @@
         android:name="com.example.barbershop.view.Agendamento"
         android:label="Agendamento"
         tools:layout="@layout/fragment_agendamento">
-        <argument
-            android:name="user"
-            app:argType="com.example.barbershop.models.User" />
         <action
             android:id="@+id/action_agendamento_to_home3"
             app:destination="@id/home3" />
     </fragment>
+
 </navigation>

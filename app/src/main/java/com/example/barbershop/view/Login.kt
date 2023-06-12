@@ -8,16 +8,15 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.example.barbershop.R
 import com.example.barbershop.models.User
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import dagger.hilt.android.scopes.FragmentScoped
 
+
+@SuppressLint("ResourceType")
 class Login : Fragment(R.layout.fragment_login) {
     private val auth = FirebaseAuth.getInstance()
 
@@ -28,15 +27,11 @@ class Login : Fragment(R.layout.fragment_login) {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
 
-        val nome = view.findViewById<EditText>(R.id.editNome)
         val senha = view.findViewById<EditText>(R.id.editSenha)
         val email = view.findViewById<EditText>(R.id.editEmail)
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
             when{
-                nome.length() < 1 -> {
-                    mensagem(it, "Coloque o seu nome!")
-                }
                 email.length() < 1 -> {
                     mensagem(it, "Preencha seu email!")
                 }
@@ -44,11 +39,7 @@ class Login : Fragment(R.layout.fragment_login) {
                     mensagem(it, "Preencha a senha!")
                 }
                 else -> {
-                    val action = LoginDirections.actionLoginToHome3(
-                       user = User (
-                           Nome = nome.text.toString()
-                               )
-                    )
+                    val action = LoginDirections.actionLoginToHome3()
                     auth.signInWithEmailAndPassword(email.text.toString(), senha.text.toString()).addOnCompleteListener { autenticacao ->
                         if(autenticacao.isSuccessful){
                             findNavController().navigate(action)
@@ -64,7 +55,14 @@ class Login : Fragment(R.layout.fragment_login) {
             findNavController().navigate(R.id.action_login_to_register)
             setStatusBarColor(color = Color.parseColor("#E74C3C"))
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        val usuarioAtual = FirebaseAuth.getInstance().currentUser
+        if (usuarioAtual != null) {
+            findNavController().navigate(LoginDirections.actionLoginToHome3())
+        }
     }
 
     private fun mensagem(view : View, mensagem : String) {

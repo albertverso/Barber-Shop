@@ -4,26 +4,25 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import com.example.barbershop.R
-import com.example.barbershop.databinding.FragmentAgendamentoBinding
-import com.example.barbershop.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
 class Agendamento : Fragment(R.layout.fragment_agendamento) {
     private val calendar: Calendar = Calendar.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+    val db : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var UserId : String = ""
     private var data: String = ""
     private var hora: String = ""
-    private val args: AgendamentoArgs by navArgs()
+    private var nome: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ResourceType", "SetTextI18n")
@@ -33,7 +32,16 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         activity?.window?.statusBarColor = Color.parseColor("#E74C3C")
 
-        val nome = args.user.Nome
+        UserId = auth.currentUser!!.uid
+        db.collection("Usuarios").document(UserId).get().addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                val document = task.result
+                if(document != null && document.exists()){
+                    val dados =document.data
+                    nome = dados?.get("Nome").toString()
+                }
+            }
+        }
 
         val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
         datePicker?.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
@@ -86,10 +94,10 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
                     mensagem(it, "Escolha uma data!")
                 }
                 barbeiro1.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome.toString(),"barbeiro1",data,hora )
+                    salvarAgendamento(it, nome,"barbeiro1",data,hora )
                 }
                 barbeiro2.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome.toString(),"barbeiro2",data,hora )
+                    salvarAgendamento(it, nome,"barbeiro2",data,hora )
                 }
                 else -> {
                     mensagem(it, "Escolha um barbeiro!")

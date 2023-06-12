@@ -32,23 +32,6 @@
             android:src="@drawable/logobarber1" />
 
         <EditText
-            android:id="@+id/editNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/white"
-            android:drawableRight="@drawable/icon_person"
-            android:gravity="center"
-            android:hint="Nome"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="15dp"
-            android:textColor="@color/midnightblue"
-            android:textColorHint="@color/midnightblue" />
-
-        <EditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

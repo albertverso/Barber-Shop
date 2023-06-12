@@ -1,26 +1,26 @@
 package com.example.barbershop.view
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.barbershop.R
-import com.example.barbershop.databinding.FragmentHomeBinding
-import com.example.barbershop.models.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class Home : Fragment(R.layout.fragment_home) {
-    private val args: HomeArgs by navArgs()
+    private val auth = FirebaseAuth.getInstance()
+    val db : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var UserId : String = ""
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "CommitTransaction")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -28,17 +28,19 @@ class Home : Fragment(R.layout.fragment_home) {
         activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
 
 
-        val NameUser = args.user.Nome
-
-        view.findViewById<TextView>(R.id.txtNomeUsuario).text = "Bem-vindo, $NameUser"
-
         view.findViewById<Button>(R.id.btAgendar).setOnClickListener {
-            val action = HomeDirections.actionHome3ToAgendamento(
-                user = User (
-                    Nome = NameUser
-                )
-            )
+            val action = HomeDirections.actionHome3ToAgendamento()
             findNavController().navigate(action)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        UserId = auth.currentUser!!.uid
+        db.collection("Usuarios").document(UserId).addSnapshotListener(EventListener { value, error ->
+            if(value!= null) {
+                view?.findViewById<TextView>(R.id.txtNomeUsuario)?.text = value.getString("Nome")
+            }
+        })
     }
 }
