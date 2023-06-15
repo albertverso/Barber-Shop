@@ -1,6 +1,8 @@
 package com.example.barbershop.view
 
 import android.annotation.SuppressLint
+import android.app.LauncherActivity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -9,11 +11,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.barbershop.LoginToRegisterActivity
+import com.example.barbershop.MainActivity
 import com.example.barbershop.R
+import com.example.barbershop.SplashScreenActivity
 import com.example.barbershop.models.User
+import com.example.barbershop.models.ViewModelApp
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("ResourceType")
@@ -23,6 +33,7 @@ class Login : Fragment(R.layout.fragment_login) {
     @SuppressLint("ResourceType", "CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val intent = Intent(activity, SplashScreenActivity::class.java)
 
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
@@ -39,10 +50,10 @@ class Login : Fragment(R.layout.fragment_login) {
                     mensagem(it, "Preencha a senha!")
                 }
                 else -> {
-                    val action = LoginDirections.actionLoginToHome3()
                     auth.signInWithEmailAndPassword(email.text.toString(), senha.text.toString()).addOnCompleteListener { autenticacao ->
                         if(autenticacao.isSuccessful){
-                            findNavController().navigate(action)
+                            startActivity(intent)
+                            activity?.finish()
                         }
                     }.addOnFailureListener {
                         mensagem(view, "Erro ao fazer o login!")
@@ -54,14 +65,6 @@ class Login : Fragment(R.layout.fragment_login) {
         view.findViewById<TextView>(R.id.btRegister).setOnClickListener {
             findNavController().navigate(R.id.action_login_to_register)
             setStatusBarColor(color = Color.parseColor("#E74C3C"))
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val usuarioAtual = FirebaseAuth.getInstance().currentUser
-        if (usuarioAtual != null) {
-            findNavController().navigate(LoginDirections.actionLoginToHome3())
         }
     }
 

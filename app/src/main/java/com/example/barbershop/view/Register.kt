@@ -31,6 +31,7 @@ class Register : Fragment(R.layout.fragment_register) {
 
     private val auth = FirebaseAuth.getInstance()
     private var UserId : String = ""
+    private var userName = auth.currentUser?.displayName
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,6 +75,7 @@ class Register : Fragment(R.layout.fragment_register) {
                                 cadastro ->
                             if(cadastro.isSuccessful){
                                 SaveUserData(nome.text.toString(), email.text.toString())
+                                userName = nome.text.toString()
                                 mensagemSuccessful(it, "Cadastro realizado com sucesso")
                                 requireActivity().onBackPressed()
                             }

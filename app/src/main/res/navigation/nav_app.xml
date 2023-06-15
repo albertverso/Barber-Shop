@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_app"
+    app:startDestination="@id/home3">
+    <fragment
+        android:id="@+id/home3"
+        android:name="com.example.barbershop.view.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home3_to_agendamento"
+            app:destination="@id/agendamento" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendamento"
+        android:name="com.example.barbershop.view.Agendamento"
+        android:label="Agendamento"
+        tools:layout="@layout/fragment_agendamento">
+        <action
+            android:id="@+id/action_agendamento_to_home3"
+            app:destination="@id/home3" />
+    </fragment>
+
+</navigation>
