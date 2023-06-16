@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 
-
 @HiltAndroidApp
 class ContaPagaApplication : Application()
 @AndroidEntryPoint
@@ -47,6 +46,9 @@ class SplashScreenActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
             if (usuarioAtual != null) {
                 val intentMain = Intent(this, MainActivity::class.java)
+
+                setContentView(R.layout.progress_bar)
+
                 UserId = auth.currentUser!!.uid
                 db.collection("Usuarios").document(UserId).get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {

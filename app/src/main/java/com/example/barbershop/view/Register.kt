@@ -1,38 +1,29 @@
 package com.example.barbershop.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
 import com.example.barbershop.R
+import com.example.barbershop.SplashScreenActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 
 class Register : Fragment(R.layout.fragment_register) {
 
     private val auth = FirebaseAuth.getInstance()
     private var UserId : String = ""
-    private var userName = auth.currentUser?.displayName
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,46 +41,56 @@ class Register : Fragment(R.layout.fragment_register) {
 
         view.findViewById<TextView>(R.id.txtActionBar).text = "Cadastro"
 
-
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
+            Submit(view, nome, email, senha)
+        }
 
-            when{
-                nome.length() < 1 -> {
-                    mensagemError(it, "Coloque o seu nome!")
-                }
-                email.length() < 1 -> {
-                    mensagemError(it, "Preencha seu Email")
-                }
-                senha.length() < 1 -> {
-                    mensagemError(it, "Preencha a senha!")
-                }
-                senha.length() < 6 -> {
-                    mensagemError(it, "A senha precisa ter pelo menos 6 caracteres!")
-                }
-                senha.length() >= 12 -> {
-                    mensagemError(it, "A senha precisa ter no máximo 12 caracteres!")
-                }
-                else -> {
-                    auth.createUserWithEmailAndPassword(email.text.toString(), senha.text.toString())
-                        .addOnCompleteListener {
-                                cadastro ->
-                            if(cadastro.isSuccessful){
-                                SaveUserData(nome.text.toString(), email.text.toString())
-                                userName = nome.text.toString()
-                                mensagemSuccessful(it, "Cadastro realizado com sucesso")
-                                requireActivity().onBackPressed()
-                            }
+        view.findViewById<TextView>(R.id.editSenhaRegister).setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                Submit(view,nome, email, senha)
+                return false
+            }
+        })
+    }
+
+    private fun Submit(it: View, nome: EditText, email: EditText, senha: EditText){
+        when{
+            nome.length() < 1 -> {
+                mensagemError(it, "Coloque o seu nome!")
+            }
+            email.length() < 1 -> {
+                mensagemError(it, "Preencha seu Email")
+            }
+            senha.length() < 1 -> {
+                mensagemError(it, "Preencha a senha!")
+            }
+            senha.length() < 6 -> {
+                mensagemError(it, "A senha precisa ter pelo menos 6 caracteres!")
+            }
+            senha.length() >= 12 -> {
+                mensagemError(it, "A senha precisa ter no máximo 12 caracteres!")
+            }
+            else -> {
+                auth.createUserWithEmailAndPassword(email.text.toString(), senha.text.toString())
+                    .addOnCompleteListener {
+                            cadastro ->
+                        if(cadastro.isSuccessful){
+                            val intent = Intent(activity, SplashScreenActivity::class.java)
+
+                            SaveUserData(nome.text.toString(), email.text.toString())
+                            mensagemSuccessful(it, "Cadastro realizado com sucesso")
+                            startActivity(intent)
                         }
-                        .addOnFailureListener {exeception ->
-                            val mensagemAuth = when(exeception){
-                                is FirebaseAuthInvalidCredentialsException -> "Digite um email válido!"
-                                is FirebaseAuthUserCollisionException -> "Esta conta ja foi cadastrada!"
-                                is FirebaseNetworkException -> "Sem conexão com a internet!"
-                                else -> "Erro ao cadastrar usuário"
-                            }
-                            mensagemError(it, mensagemAuth)
                     }
-                }
+                    .addOnFailureListener {exeception ->
+                        val mensagemAuth = when(exeception){
+                            is FirebaseAuthInvalidCredentialsException -> "Digite um email válido!"
+                            is FirebaseAuthUserCollisionException -> "Esta conta ja foi cadastrada!"
+                            is FirebaseNetworkException -> "Sem conexão com a internet!"
+                            else -> "Erro ao cadastrar usuário"
+                        }
+                        mensagemError(it, mensagemAuth)
+                    }
             }
         }
     }
@@ -114,8 +115,8 @@ class Register : Fragment(R.layout.fragment_register) {
         snackbar.show()
     }
 
-    private fun mensagemSuccessful(view : View, mensagemSuccessful : String) {
-        val snackbar = Snackbar.make(view,mensagemSuccessful, Snackbar.LENGTH_SHORT)
+    private fun mensagemSuccessful(view : View, message : String) {
+        val snackbar = Snackbar.make(view,message, Snackbar.LENGTH_SHORT)
         snackbar.setBackgroundTint(Color.parseColor("#10B519"))
         snackbar.setTextColor(Color.parseColor("#FFFFFF"))
         snackbar.show()

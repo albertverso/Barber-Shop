@@ -5,6 +5,8 @@ import android.app.LauncherActivity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -33,38 +35,49 @@ class Login : Fragment(R.layout.fragment_login) {
     @SuppressLint("ResourceType", "CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val intent = Intent(activity, SplashScreenActivity::class.java)
 
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
 
-        val senha = view.findViewById<EditText>(R.id.editSenha)
         val email = view.findViewById<EditText>(R.id.editEmail)
+        val senha = view.findViewById<EditText>(R.id.editSenha)
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
-            when{
-                email.length() < 1 -> {
-                    mensagem(it, "Preencha seu email!")
-                }
-                senha.length() < 1 -> {
-                    mensagem(it, "Preencha a senha!")
-                }
-                else -> {
-                    auth.signInWithEmailAndPassword(email.text.toString(), senha.text.toString()).addOnCompleteListener { autenticacao ->
-                        if(autenticacao.isSuccessful){
-                            startActivity(intent)
-                            activity?.finish()
-                        }
-                    }.addOnFailureListener {
-                        mensagem(view, "Erro ao fazer o login!")
-                    }
-                }
-            }
+           Submit(view, email, senha)
         }
 
         view.findViewById<TextView>(R.id.btRegister).setOnClickListener {
             findNavController().navigate(R.id.action_login_to_register)
             setStatusBarColor(color = Color.parseColor("#E74C3C"))
+        }
+
+        view.findViewById<TextView>(R.id.editSenha).setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                Submit(view, email, senha)
+                return false
+            }
+        })
+    }
+
+    private fun Submit(it:View, email: EditText, senha: EditText) {
+        val intent = Intent(activity, SplashScreenActivity::class.java)
+        when{
+            email.length() < 1 -> {
+                mensagem(it, "Preencha seu email!")
+            }
+            senha.length() < 1 -> {
+                mensagem(it, "Preencha a senha!")
+            }
+            else -> {
+                auth.signInWithEmailAndPassword(email.text.toString(), senha.text.toString()).addOnCompleteListener { autenticacao ->
+                    if(autenticacao.isSuccessful){
+                        startActivity(intent)
+                        activity?.finish()
+                    }
+                }.addOnFailureListener {
+                    mensagem(requireView(), "Erro ao fazer o login!")
+                }
+            }
         }
     }
 

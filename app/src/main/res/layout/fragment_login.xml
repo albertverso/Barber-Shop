@@ -61,6 +61,7 @@
             android:drawableRight="@drawable/icon_eye"
             android:gravity="center"
             android:hint="Senha"
+            android:imeOptions="actionDone"
             android:inputType="numberPassword"
             android:maxLines="1"
             android:padding="15dp"
