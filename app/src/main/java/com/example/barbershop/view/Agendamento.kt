@@ -4,45 +4,43 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.activityViewModels
 import com.example.barbershop.R
-import com.example.barbershop.databinding.FragmentAgendamentoBinding
-import com.example.barbershop.databinding.FragmentHomeBinding
+import com.example.barbershop.models.ViewModelApp
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 
 class Agendamento : Fragment(R.layout.fragment_agendamento) {
-    private var _binding: FragmentAgendamentoBinding? = null
-    private val binding get() = _binding!!
     private val calendar: Calendar = Calendar.getInstance()
+    private val viewModel: ViewModelApp by activityViewModels()
     private var data: String = ""
     private var hora: String = ""
-    private val args: AgendamentoArgs by navArgs()
+    private var nome: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentAgendamentoBinding.inflate(inflater, container, false)
+    @SuppressLint("ResourceType", "SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val view = binding.root
-        val nome = args.user.Nome
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity?.window?.statusBarColor = Color.parseColor("#E74C3C")
+
+        nome = viewModel.userName.value.toString()
+
+        view.findViewById<ImageView>(R.id.arrow_back).setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+        view.findViewById<TextView>(R.id.txtActionBar).text = "Agendamento"
 
         val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
         datePicker?.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, monthOfYear)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             var dia = dayOfMonth.toString()
             val mes: String
@@ -61,13 +59,13 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
         }
 
         view.findViewById<TimePicker>(R.id.timePicker)?.setOnTimeChangedListener { _, hourOfDay, minute ->
-           val minuto: String
+            val minuto: String
 
-           if(minute < 10){
-               minuto = "0$minute"
-           }else{
-               minuto = minute.toString()
-           }
+            if(minute < 10){
+                minuto = "0$minute"
+            }else{
+                minuto = minute.toString()
+            }
 
             hora = "$hourOfDay: $minuto"
         }
@@ -79,54 +77,34 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
             val barbeiro2 = view.findViewById<CheckBox>(R.id.barbeiro2)
 
             when{
+                data.isEmpty() -> {
+                    mensagem(it, "Escolha uma data!")
+                }
                 hora.isEmpty() -> {
-                    mensagem(it, "Preencha o horário", "#FF0000")
+                    mensagem(it, "Preencha o horário")
                 }
                 hora < "8:00" && hora > "19:00" -> {
-                    mensagem(it, "Barbearia esta fechada - hórario de atendimento das 08:00 ás 19:00 horas!", "#FF0000")
-                }
-                data.isEmpty() -> {
-                    mensagem(it, "Escolha uma data!", "#FF0000")
+                    mensagem(it, "Barbearia esta fechada - hórario de atendimento das 08:00 ás 19:00 horas!")
                 }
                 barbeiro1.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome.toString(),"barbeiro1",data,hora )
+                    salvarAgendamento(it, nome,"barbeiro1",data,hora )
                 }
                 barbeiro2.isChecked && data.isNotEmpty() && hora.isNotEmpty() -> {
-                    salvarAgendamento(it, nome.toString(),"barbeiro2",data,hora )
+                    salvarAgendamento(it, nome,"barbeiro2",data,hora )
                 }
                 else -> {
-                    mensagem(it, "Escolha um barbeiro!", "#FF0000")
+                    mensagem(it, "Escolha um barbeiro!")
                 }
             }
         }
-        return view
     }
-
-    @SuppressLint("ResourceType", "SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.findViewById<ImageView>(R.id.arrow_back).setOnClickListener {
-            requireActivity().onBackPressed()
-            setStatusBarColor(color = Color.parseColor("#2C3E50"))
-        }
-
-        view.findViewById<TextView>(R.id.txtActionBar).text = "Agendamento"
-    }
-
-    private fun setStatusBarColor(color: Int) {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        activity?.window?.statusBarColor = color
-    }
-
-    private fun mensagem(view: View, mensagem: String, cor: String){
+    private fun mensagem(view: View, mensagem: String){
         val snackbar = Snackbar.make(view, mensagem, Snackbar.LENGTH_SHORT)
         snackbar.setBackgroundTint(Color.RED)
         snackbar.show()
     }
 
     private fun salvarAgendamento(view: View, cliente: String, barbeiro: String, data: String, hora: String) {
-
         val db = FirebaseFirestore.getInstance()
 
         val dadosUsuarios = hashMapOf(
@@ -136,10 +114,11 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
             "hora" to hora,
         )
 
-        db.collection("agendamento").document(cliente).set(dadosUsuarios).addOnCompleteListener {
-            mensagem(view, "Agendamento realizado com sucesso!", "FF03DAC5")
+        db.collection("Agendamento").document(cliente).set(dadosUsuarios).addOnCompleteListener {
+            requireActivity().onBackPressed()
+            mensagem(view, "Agendamento realizado com sucesso!")
         }.addOnFailureListener {
-            mensagem(view,"Erro no servidor!", "#FF0000")
+            mensagem(view,"Erro no servidor!")
         }
     }
 }
