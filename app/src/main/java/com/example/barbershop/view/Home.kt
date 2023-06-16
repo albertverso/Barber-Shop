@@ -1,50 +1,37 @@
 package com.example.barbershop.view
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.barbershop.R
-import com.example.barbershop.databinding.FragmentHomeBinding
-import com.example.barbershop.models.User
+import com.example.barbershop.models.ViewModelApp
+import com.google.firebase.auth.FirebaseAuth
 
 class Home : Fragment(R.layout.fragment_home) {
-    private val args: HomeArgs by navArgs()
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: ViewModelApp by activityViewModels()
 
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        activity?.window?.statusBarColor = Color.parseColor("#2C3E50")
 
-        val view = binding.root
-
-        val NameUser = args.user.Nome
-
-        view.findViewById<TextView>(R.id.txtNomeUsuario).text = "Bem-vindo, $NameUser"
+        view.findViewById<TextView>(R.id.txtNomeUsuario).text = "Bem vindo, ${viewModel.userName.value}"
 
         view.findViewById<Button>(R.id.btAgendar).setOnClickListener {
-            val action = HomeDirections.actionHome3ToAgendamento(
-                user = User (
-                    Nome = NameUser
-                )
-            )
+            val action = HomeDirections.actionHome3ToAgendamento()
             findNavController().navigate(action)
         }
-
-        return view
     }
 }

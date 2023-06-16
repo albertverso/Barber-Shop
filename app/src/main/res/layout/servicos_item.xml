@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="350dp"
     android:background="@color/midnightblue"
     >
     <GridLayout
@@ -31,14 +31,17 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:src="@drawable/img1"
-                        android:scaleType="fitCenter"
+                        android:layout_height="80dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/img1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -47,7 +50,7 @@
                         android:textColor="@color/midnightblue"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:layout_marginTop="140dp"
+                        android:layout_marginTop="80dp"
                         />
                 </RelativeLayout>
 
@@ -66,14 +69,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:src="@drawable/img2"
-                    android:scaleType="fitCenter"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img2" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +88,7 @@
                     android:textColor="@color/midnightblue"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_marginTop="140dp"
+                    android:layout_marginTop="100dp"
                />
             </RelativeLayout>
 
@@ -105,7 +111,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:scaleType="fitCenter"
@@ -119,7 +125,7 @@
                     android:textColor="@color/midnightblue"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_marginTop="140dp" />
+                    android:layout_marginTop="80dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -135,14 +141,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:src="@drawable/img4"
-                    android:scaleType="fitCenter"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img4" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -151,7 +160,7 @@
                     android:textColor="@color/midnightblue"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:layout_marginTop="140dp" />
+                    android:layout_marginTop="80dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>
