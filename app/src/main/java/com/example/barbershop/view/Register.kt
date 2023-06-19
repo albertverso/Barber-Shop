@@ -39,7 +39,7 @@ class Register : Fragment(R.layout.fragment_register) {
             requireActivity().onBackPressed()
         }
 
-        view.findViewById<TextView>(R.id.txtActionBar).text = "Cadastro"
+        view.findViewById<TextView>(R.id.txtActionBar).text = context?.resources?.getString(R.string.cadastrar)
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
             Submit(view, nome, email, senha)
@@ -80,6 +80,7 @@ class Register : Fragment(R.layout.fragment_register) {
                             SaveUserData(nome.text.toString(), email.text.toString())
                             mensagemSuccessful(it, "Cadastro realizado com sucesso")
                             startActivity(intent)
+                            activity?.finish()
                         }
                     }
                     .addOnFailureListener {exeception ->

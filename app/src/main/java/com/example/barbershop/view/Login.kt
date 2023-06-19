@@ -42,6 +42,11 @@ class Login : Fragment(R.layout.fragment_login) {
         val email = view.findViewById<EditText>(R.id.editEmail)
         val senha = view.findViewById<EditText>(R.id.editSenha)
 
+        view.findViewById<TextView>(R.id.txtRecuperarSenha).setOnClickListener {
+            findNavController().navigate(R.id.action_login_to_recoveryPassword)
+            setStatusBarColor(color = Color.parseColor("#E74C3C"))
+        }
+
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
            Submit(view, email, senha)
         }

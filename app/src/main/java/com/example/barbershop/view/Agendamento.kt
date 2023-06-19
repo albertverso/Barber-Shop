@@ -37,10 +37,13 @@ class Agendamento : Fragment(R.layout.fragment_agendamento) {
         view.findViewById<ImageView>(R.id.arrow_back).setOnClickListener {
             requireActivity().onBackPressed()
         }
-        view.findViewById<TextView>(R.id.txtActionBar).text = "Agendamento"
+        view.findViewById<TextView>(R.id.txtActionBar).text = context?.resources?.getString(R.string.Agendamento)
 
         val datePicker = view.findViewById<DatePicker>(R.id.datePicker)
         datePicker?.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             var dia = dayOfMonth.toString()
             val mes: String

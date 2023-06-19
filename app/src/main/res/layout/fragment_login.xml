@@ -48,7 +48,8 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:drawableEnd="@drawable/icon_email"
-            tools:ignore="TextFields" />
+            tools:ignore="TextFields"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editSenha"
@@ -58,15 +59,16 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
             android:background="@color/white"
-            android:drawableRight="@drawable/icon_eye"
+            android:drawableEnd="@drawable/icon_eye"
             android:gravity="center"
-            android:hint="Senha"
+            android:hint="@string/senha"
             android:imeOptions="actionDone"
             android:inputType="numberPassword"
             android:maxLines="1"
             android:padding="15dp"
             android:textColor="@color/midnightblue"
-            android:textColorHint="@color/midnightblue" />
+            android:textColorHint="@color/midnightblue"
+            android:autofillHints="" />
 
         <TextView
             android:id="@+id/txtRecuperarSenha"

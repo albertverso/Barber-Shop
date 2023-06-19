@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_login_to_register"
             app:destination="@id/register" />
+        <action
+            android:id="@+id/action_login_to_recoveryPassword"
+            app:destination="@id/recoveryPassword" />
     </fragment>
     <fragment
         android:id="@+id/register"
@@ -21,6 +24,15 @@
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_register_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/recoveryPassword"
+        android:name="com.example.barbershop.view.RecoveryPassword"
+        android:label="RecoveryPassword"
+        tools:layout="@layout/fragment_password_recovery">
+        <action
+            android:id="@+id/action_recoveryPassword_to_login"
             app:destination="@id/login" />
     </fragment>
 </navigation>
