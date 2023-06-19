@@ -2,14 +2,17 @@
     <string name="app_name">Barber Shop</string>
     <string name="crie_sua_conta"> <u>Não tem uma conta? Cadastre-se agora mesmo!</u></string>
     <string name="recuperar_senha"> <u>Esqueceu a senha? Recupere aqui!</u></string>
+    <string name="recuperando_senha">Digite o email que foi cadastrado sua conta.</string>
     <string name="barber_shop">Barber Shop</string>
     <string name="login">Entrar</string>
     <string name="registre_se">Cadastre-se</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="enviar">Enviar</string>
     <string name="senha">Senha</string>
     <string name="nome">Nome</string>
     <string name="email">Email</string>
     <string name="hora">Hora</string>
     <string name="data">Data</string>
     <string name="Agendamento">Agendamento</string>
+    <string name="Recuperando">Recuperando Senha</string>
 </resources>
