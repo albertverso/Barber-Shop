@@ -2,6 +2,7 @@ package com.example.barbershop.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -31,11 +32,18 @@ class RecoveryPassword : Fragment(R.layout.fragment_password_recovery) {
         val email = view.findViewById<EditText>(R.id.editEmailRecovery)
 
         view.findViewById<Button>(R.id.btRecovery).setOnClickListener {
-            Submit(view, email)
+            submit(view, email)
         }
+
+        view.findViewById<TextView>(R.id.editEmailRecovery).setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                submit(view, email)
+                return false
+            }
+        })
     }
 
-    private fun Submit(view: View, email: EditText){
+    private fun submit(view: View, email: EditText){
         when{
             email.length() < 1 -> {
                 mensagemError(view, "Preencha seu Email")

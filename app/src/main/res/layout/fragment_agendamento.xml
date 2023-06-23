@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,15 +10,11 @@
     >
 
 <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/midnightblue"
     tools:context=".view.Agendamento">
-
-        <include
-            layout="@layout/action_bar" />
 
         <TextView
             android:layout_width="match_parent"
@@ -27,15 +24,16 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"/>
 
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner" />
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/midnightblue"
+        android:calendarTextColor="@color/white"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
 
         <TextView
             android:layout_width="match_parent"
@@ -51,9 +49,9 @@
             android:id="@+id/timePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/midnightblue"
+            android:calendarTextColor="@color/white"
             android:timePickerMode="spinner"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

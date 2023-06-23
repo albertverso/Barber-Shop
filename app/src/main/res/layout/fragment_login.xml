@@ -48,27 +48,38 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:drawableEnd="@drawable/icon_email"
+            android:drawablePadding="12dp"
             tools:ignore="TextFields"
             android:autofillHints="" />
 
-        <EditText
-            android:id="@+id/editSenha"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
-            android:background="@color/white"
-            android:drawableEnd="@drawable/icon_eye"
-            android:gravity="center"
-            android:hint="@string/senha"
-            android:imeOptions="actionDone"
-            android:inputType="numberPassword"
-            android:maxLines="1"
-            android:padding="15dp"
-            android:textColor="@color/midnightblue"
-            android:textColorHint="@color/midnightblue"
-            android:autofillHints="" />
+            android:focusable="false"
+            app:boxStrokeColor="#00FFFFFF"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="#00FFFFFF"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/midnightblue">
+            <EditText
+                android:id="@+id/editSenha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="@string/senha"
+                android:imeOptions="actionDone"
+                android:inputType="numberPassword"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/midnightblue"
+                android:textColorHint="@color/midnightblue"
+                android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/txtRecuperarSenha"

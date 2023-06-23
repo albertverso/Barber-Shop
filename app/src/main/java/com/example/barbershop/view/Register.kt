@@ -42,18 +42,18 @@ class Register : Fragment(R.layout.fragment_register) {
         view.findViewById<TextView>(R.id.txtActionBar).text = context?.resources?.getString(R.string.cadastrar)
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
-            Submit(view, nome, email, senha)
+            submit(view, nome, email, senha)
         }
 
         view.findViewById<TextView>(R.id.editSenhaRegister).setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                Submit(view,nome, email, senha)
+                submit(view,nome, email, senha)
                 return false
             }
         })
     }
 
-    private fun Submit(it: View, nome: EditText, email: EditText, senha: EditText){
+    private fun submit(it: View, nome: EditText, email: EditText, senha: EditText){
         when{
             nome.length() < 1 -> {
                 mensagemError(it, "Coloque o seu nome!")

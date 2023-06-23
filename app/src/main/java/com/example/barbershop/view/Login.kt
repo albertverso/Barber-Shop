@@ -1,11 +1,9 @@
 package com.example.barbershop.view
 
 import android.annotation.SuppressLint
-import android.app.LauncherActivity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -13,20 +11,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.barbershop.LoginToRegisterActivity
-import com.example.barbershop.MainActivity
 import com.example.barbershop.R
 import com.example.barbershop.SplashScreenActivity
-import com.example.barbershop.models.User
-import com.example.barbershop.models.ViewModelApp
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
-
 
 @SuppressLint("ResourceType")
 class Login : Fragment(R.layout.fragment_login) {
@@ -48,7 +37,7 @@ class Login : Fragment(R.layout.fragment_login) {
         }
 
         view.findViewById<Button>(R.id.btLogin).setOnClickListener {
-           Submit(view, email, senha)
+           submit(view, email, senha)
         }
 
         view.findViewById<TextView>(R.id.btRegister).setOnClickListener {
@@ -58,13 +47,13 @@ class Login : Fragment(R.layout.fragment_login) {
 
         view.findViewById<TextView>(R.id.editSenha).setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                Submit(view, email, senha)
+                submit(view, email, senha)
                 return false
             }
         })
     }
 
-    private fun Submit(it:View, email: EditText, senha: EditText) {
+    private fun submit(it:View, email: EditText, senha: EditText) {
         val intent = Intent(activity, SplashScreenActivity::class.java)
         when{
             email.length() < 1 -> {

@@ -15,4 +15,6 @@
     <string name="data">Data</string>
     <string name="Agendamento">Agendamento</string>
     <string name="Recuperando">Recuperando Senha</string>
+    <string name="home">Home</string>
+    <string name="user">Usuário</string>
 </resources>
